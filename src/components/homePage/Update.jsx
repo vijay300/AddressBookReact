@@ -42,10 +42,20 @@ export default class Update extends React.Component {
 
     handleChange = (event) => {
         this.setState({...this.state, [event.target.name]: event.target.value})
-      }
+    }
+
+    reset = () => {
+        this.setState({firstName: ''})
+        this.setState({lastName: ''})
+        this.setState({phoneNumber: ''})
+        this.setState({email: ''})
+        this.setState({address: ''})
+        this.setState({city: ''})
+        this.setState({state: ''})
+        this.setState({zipCode: ''})
+    }
     
-    
-      save = (event) => {
+    save = (event) => {
         event.preventDefault();
     
         let object = {
@@ -67,7 +77,7 @@ export default class Update extends React.Component {
         }).catch(err => {
           console.log(err);
         })
-      }
+    }
 
     render () {
         return(
@@ -116,27 +126,23 @@ export default class Update extends React.Component {
                   <textarea id="notes" className="input" name="address" style={{height: '100px'}} value={this.state.address}  onChange={this.handleChange} ></textarea>
                 </div>
                 <div className="row-content">
-                  <div className="row-33">
-                    <label className="label drop" htmlFor="state">State</label>
-                    <select id="state" name="state">
-                      <option value={this.state.state} selected = "selected" style={{width: '100%' }} onChange={this.handleChange} >Select State</option>
-                    </select>
-                  </div>
-                  <div className="row-33">
-                    <label className="label drop" htmlFor="city">City</label>
-                    <select id="city" name="city">
-                      <option value={this.state.city} selected="selected" style={{width: '100%' }} onChange={this.handleChange} >Select City</option>
-                    </select>
-                  </div>
-                  <div className="row-33">
-                    <label className="label text" htmlFor="zipCode">Zip Code</label>
-                    <input className="input" type="text" id="zipCode" name="zipCode" value={this.state.zipCode} onChange={this.handleChange}  />
+                    <div className="row-33">
+                        <label className="label drop" htmlFor="state">State</label>
+                        <input className="input" type="text" id="state" name="state" value={this.state.state} onChange={this.handleChange}  />
+                    </div>
+                    <div className="row-33">
+                        <label className="label drop" htmlFor="city">City</label>
+                        <input className="input" type="text" id="city" name="city" value={this.state.city} onChange={this.handleChange}  />
+                    </div>
+                    <div className="row-33">
+                        <label className="label text" htmlFor="zipCode">Zip Code</label>
+                        <input className="input" type="text" id="zipCode" name="zipCode" value={this.state.zipCode} onChange={this.handleChange}  />
                   </div>
                 </div>
                 <div className="row-content">
                   <div className="button-content">
                     <button type="submit" className="button submitButton" id="submitButton" onClick={this.save}>Update</button>
-                    <button type="reset" className="resetButton button">Reset</button>
+                    <button type="reset" className="resetButton button" onClick={this.reset}>Reset</button>
                   </div>
                 </div>
               </form>

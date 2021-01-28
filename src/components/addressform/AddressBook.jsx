@@ -2,7 +2,6 @@ import React from 'react';
 import logo from '../../assets/logo.png'
 import cancel from '../../assets/cancel.jpeg'
 import { Link } from 'react-router-dom';
-import stateCityObj from './cityState.js';
 import './AddressBook.css'
 import AddressBookServices from '../../services/AddressBookServices';
 
@@ -26,6 +25,16 @@ export default class AddressBook extends React.Component{
     this.setState({...this.state, [event.target.name]: event.target.value})
   }
 
+  reset = () => {
+    this.setState({firstName: ''})
+    this.setState({lastName: ''})
+    this.setState({phoneNumber: ''})
+    this.setState({email: ''})
+    this.setState({address: ''})
+    this.setState({city: ''})
+    this.setState({state: ''})
+    this.setState({zipCode: ''})
+  }
 
   save = (event) => {
     event.preventDefault();
@@ -100,15 +109,11 @@ export default class AddressBook extends React.Component{
             <div className="row-content">
               <div className="row-33">
                 <label className="label drop" htmlFor="state">State</label>
-                <select id="state" name="state">
-                  <option value={this.state.state} selected = "selected" style={{width: '100%' }} onChange={this.handleChange} >Select State</option>
-                </select>
+                <input className="input" type="text" id="state" name="state" value={this.state.state} onChange={this.handleChange}  />
               </div>
               <div className="row-33">
                 <label className="label drop" htmlFor="city">City</label>
-                <select id="city" name="city">
-                  <option value={this.state.city} selected="selected" style={{width: '100%' }} onChange={this.handleChange} >Select City</option>
-                </select>
+                <input className="input" type="text" id="city" name="city" value={this.state.city} onChange={this.handleChange}  />
               </div>
               <div className="row-33">
                 <label className="label text" htmlFor="zipCode">Zip Code</label>
@@ -118,7 +123,7 @@ export default class AddressBook extends React.Component{
             <div className="row-content">
               <div className="button-content">
                 <button type="submit" className="button submitButton" id="submitButton" onClick={this.save}>Add</button>
-                <button type="reset" className="resetButton button">Reset</button>
+                <button type="reset" className="resetButton button" onClick={this.reset}>Reset</button>
               </div>
             </div>
           </form>

@@ -4,6 +4,7 @@ import cancel from '../../assets/cancel.jpeg'
 import { Link } from 'react-router-dom';
 import './AddressBook.css'
 import AddressBookServices from '../../services/AddressBookServices';
+import cityState from '../../assets/db.json'
 
 const service = new AddressBookServices();
 export default class AddressBook extends React.Component{
@@ -17,9 +18,42 @@ export default class AddressBook extends React.Component{
       city: '',
       state: '',
       email: '',
-      zipCode: ''
+      zipCode: '',
+			states : [],
+			cities : [],
+			selectedCity : '--Choose City--',
+			selectedState : '--Choose State--'
     }
+    this.changeState = this.changeState.bind(this);
+    this.changeCity = this.changeCity.bind(this);
   }
+
+  componentDidMount() {
+		this.setState({
+			states : [
+				{ name: 'Andhra Pradesh', cities: ['Vizag', 'Vijayawada', 'Kakinada'] },
+				{ name: 'Arunachal Pradesh', cities: ["Naharlagun", "Pasighat"]},
+				{ name: 'Goa', cities: ["Mapusa", "Margao", "Marmagao", "Panaji"] },
+				{ name: 'Harayana', cities: ['Gurgaon', 'Rohtak', 'Yamunanagar'] },
+        { name: 'Karnataka', cities: ['Bangalore', "Ballari", "Chikkamagaluru", "Davanagere", "Gokak"] },
+        { name: 'Kerala', cities: ["Kochi", "Kodungallur", "Kollam", "Kottayam", "Kozhikode"] },
+        { name: 'Madhya Pradesh', cities: ["Bhopal", "Ganjbasoda", "Gwalior", "Indore", "Itarsi"] },
+        { name: 'Maharashtra', cities: ['Mumbai', 'Pune', 'Nagpur', 'Nashik'] },
+        { name: 'Tamil Nadu', cities: ['Chennai', 'Salem', 'Tirichy', 'Coimbatore'] },
+        { name: 'Telangana', cities: ['Hyderabad', 'Warangal', 'Karim Nagar', 'Nalgonda'] },
+        { name: 'Uttar Pradesh', cities: ['Kanpur', 'Lucknow', 'Agra', 'Noida'] },
+			]
+		});
+  }
+  
+  changeCity(event) {
+    this.setState({selectedCity: event.target.value})
+  }
+  
+	changeState(event) {
+		this.setState({selectedState: event.target.value});
+		this.setState({cities : this.state.states.find(cntry => cntry.name === event.target.value).cities});
+	}
 
   handleChange = (event) => {
     this.setState({...this.state, [event.target.name]: event.target.value})
@@ -43,8 +77,8 @@ export default class AddressBook extends React.Component{
       "firstName": this.state.firstName,
       "lastName": this.state.lastName,
       "address": this.state.address,
-      "city": this.state.city,
-      "state":this.state.state,
+      "city": this.state.selectedCity,
+      "state":this.state.selectedState,
       "emailId": this.state.email,
       "phoneNumber": this.state.phoneNumber,
       "zipCode": this.state.zipCode
@@ -109,11 +143,21 @@ export default class AddressBook extends React.Component{
             <div className="row-content">
               <div className="row-33">
                 <label className="label drop" htmlFor="state">State</label>
-                <input className="input" type="text" id="state" name="state" value={this.state.state} onChange={this.handleChange}  />
+                <select placeholder="State" value={this.state.selectedState} onChange={this.changeState}>
+                  <option>--Choose State--</option>
+                  {this.state.states.map((e, key) => {
+                    return <option key={key} value={e.name} >{e.name}</option>;
+                  })}
+                </select>
               </div>
               <div className="row-33">
                 <label className="label drop" htmlFor="city">City</label>
-                <input className="input" type="text" id="city" name="city" value={this.state.city} onChange={this.handleChange}  />
+                <select placeholder="City" value={this.state.selectedCity} onChange={this.changeCity}>
+                  <option>--Choose City--</option>
+                  {this.state.cities.map((e, key) => {
+                    return <option key={key} value={e}>{e}</option>;
+                  })}
+                </select>
               </div>
               <div className="row-33">
                 <label className="label text" htmlFor="zipCode">Zip Code</label>

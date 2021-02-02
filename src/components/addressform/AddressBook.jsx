@@ -4,7 +4,6 @@ import cancel from '../../assets/cancel.jpeg'
 import { Link } from 'react-router-dom';
 import './AddressBook.css'
 import AddressBookServices from '../../services/AddressBookServices';
-import cityState from '../../assets/db.json'
 
 const service = new AddressBookServices();
 export default class AddressBook extends React.Component{
@@ -84,13 +83,10 @@ export default class AddressBook extends React.Component{
       "zipCode": this.state.zipCode
     }
 
-    console.log(object);
-
     service.addressRegistration(object).then(data => {
-      console.log(data);
       this.props.history.push('/');
     }).catch(err => {
-      console.log(err);
+      alert("Please Check the Details given");
     })
   }
 
@@ -137,8 +133,10 @@ export default class AddressBook extends React.Component{
               </div>
             </div>	
             <div className="row-content">
-              <label className="label text" htmlFor="address">Address</label>
-              <textarea id="notes" className="input" name="address" style={{height: '100px'}} value={this.state.address}  onChange={this.handleChange} ></textarea>
+              <div className="row-100">
+                <label className="label text" htmlFor="address">Address</label>
+                <textarea id="notes" className="input" name="address" style={{height: '100px'}} value={this.state.address}  onChange={this.handleChange} ></textarea>
+              </div>
             </div>
             <div className="row-content">
               <div className="row-33">

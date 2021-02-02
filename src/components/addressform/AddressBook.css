@@ -106,12 +106,22 @@ label {
     resize: vertical;
 }
 
+.row-100 {
+    display: flex;
+    flex: 100%; 
+    flex-direction: column;
+    justify-content: space-between;
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
 .row-50 {
     display: flex;
     flex: 50%; 
     flex-direction: column;
     justify-content: space-between;
-    padding-right: 20px;
+    padding-right: 15px;
+    padding-left: 15px;
 }
 
 .row-33 {
@@ -119,7 +129,8 @@ label {
     flex: 33%; 
     flex-direction: column;
     justify-content: space-between;
-    padding-right: 20px;
+    padding-right: 15px;
+    padding-left: 15px;
 }
 
 select {

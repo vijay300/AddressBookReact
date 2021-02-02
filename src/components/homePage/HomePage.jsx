@@ -29,9 +29,8 @@ export default class HomePage extends React.Component {
   getAddressData = () => {
     service.getAllAddressess().then(data => {
       this.setState({ addressArray: data.data.data});
-      console.log(this.state.addressArray)
     }).catch(err => {
-      console.log(err);
+      alert(err);
     })
   }
 

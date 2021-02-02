@@ -13,6 +13,7 @@ export default class Display extends React.Component {
     super(props);
     this.state = {
       addressArray: [],
+      message: 'Once data deleted, cannnot be retrieved back.\n Do you want to Continue',
       update: ''
     }
   }
@@ -23,9 +24,7 @@ export default class Display extends React.Component {
   }
 
   deleteAddress = (id) => {
-    console.log(id);
     service.deleteAddress(id).then(() => {
-      console.log("deleted successfully");
       this.setState({update: "updates"});
       this.props.callUpdate();
     }).catch(err => {
@@ -59,7 +58,7 @@ export default class Display extends React.Component {
                 <td>{element.state}</td>
                 <td>{element.emailId}</td>
                 <td>{element.zipCode}</td>
-                { <td><img onClick={() => this.deleteAddress(element.addressId)} src={deleteIcon} alt="delete" />
+                { <td><img onClick={() => {if(window.confirm(this.state.message)){this.deleteAddress(element.addressId)}}} src={deleteIcon} alt="delete" />
                     <Link to="Update">
                       <img onClick={() => this.updateAddress(element.addressId)} src={editIcon} alt="edit" />
                     </Link>

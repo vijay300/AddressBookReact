@@ -21,8 +21,8 @@ export default class Update extends React.Component {
           zipCode: '',
           states : [],
           cities : [],
-          selectedCity : '--Choose City--',
-          selectedState : '--Choose State--'
+          selectedCity : '',
+          selectedState : ''
         }
         this.changeState = this.changeState.bind(this);
         this.changeCity = this.changeCity.bind(this);
@@ -30,7 +30,6 @@ export default class Update extends React.Component {
 
     componentDidMount() {
         let addId = localStorage.getItem('idA');
-        console.log(addId);
         service.getAddressById(addId).then((res) => {
             console.log(res.data.data);
             this.setState({firstName: res.data.data.firstName})
@@ -38,8 +37,8 @@ export default class Update extends React.Component {
             this.setState({phoneNumber: res.data.data.phoneNumber})
             this.setState({email: res.data.data.emailId})
             this.setState({address: res.data.data.address})
-            this.setState({city: res.data.data.city})
-            this.setState({state: res.data.data.state})
+            this.setState({selectedCity: res.data.data.city})
+            this.setState({selectedState: res.data.data.state})
             this.setState({zipCode: res.data.data.zipCode})
         }).catch(err => {
             console.log(err);
@@ -99,10 +98,7 @@ export default class Update extends React.Component {
           "zipCode": this.state.zipCode
         }
     
-        console.log(object);
-    
         service.updateAddress(localStorage.getItem('idA'), object).then(data => {
-          console.log(data);
           this.props.history.push('/');
         }).catch(err => {
           console.log(err);
@@ -152,14 +148,15 @@ export default class Update extends React.Component {
                   </div>
                 </div>	
                 <div className="row-content">
-                  <label className="label text" htmlFor="address">Address</label>
-                  <textarea id="notes" className="input" name="address" style={{height: '100px'}} value={this.state.address}  onChange={this.handleChange} ></textarea>
+                  <div className="row-100">
+                    <label className="label text" htmlFor="address">Address</label>
+                    <textarea id="notes" className="input" name="address" style={{height: '100px'}} value={this.state.address}  onChange={this.handleChange} ></textarea>
+                  </div>
                 </div>
                 <div className="row-content">
                     <div className="row-33">
                         <label className="label drop" htmlFor="state">State</label>
                         <select placeholder="State" value={this.state.selectedState} onChange={this.changeState}>
-                          <option>--Choose State--</option>
                           {this.state.states.map((e, key) => {
                             return <option key={key} value={e.name} >{e.name}</option>;
                           })}
@@ -168,7 +165,7 @@ export default class Update extends React.Component {
                     <div className="row-33">
                         <label className="label drop" htmlFor="city">City</label>
                         <select placeholder="City" value={this.state.selectedCity} onChange={this.changeCity}>
-                          <option>--Choose City--</option>
+                          <option>{this.state.selectedCity}</option>
                           {this.state.cities.map((e, key) => {
                             return <option key={key} value={e}>{e}</option>;
                           })}
